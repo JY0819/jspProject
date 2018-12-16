@@ -19,4 +19,21 @@ public class NoticeService {
 		return list;
 	}
 
+	// 공지사항 등록
+	public int insertNotice(Notice reqNotice) {
+		Connection con = getConnection();
+		System.out.println("서비스");
+		int result = new NoticeDao().insertNotice(con, reqNotice);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
 }

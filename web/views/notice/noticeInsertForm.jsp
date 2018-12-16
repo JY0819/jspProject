@@ -45,9 +45,10 @@ table {
 					</tr>
 					<tr>
 						<td>작성자</td>
-						<td><input type="text" value="<%=loginUser.getNickName()%>"
-							name="writer" readonly> <input type="hidden"
-							value="<%=loginUser.getUno()%>" name="uno"></td>
+						<td>
+							<input type="text" value="<%=loginUser.getNickName()%>" name="writer" readonly> 
+							<input type="hidden" value="<%=loginUser.getUno()%>" name="uno">
+						</td>
 						<td>작성일</td>
 						<td><input type="date" name="date"></td>
 					</tr>
