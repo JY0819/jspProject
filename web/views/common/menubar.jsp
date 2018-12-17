@@ -30,6 +30,7 @@ body {
 	vertical-align: middle;
 	width: 150px;
 	height: 50px;
+	font-weight: bold;
 }
 
 .nav {
@@ -50,7 +51,7 @@ body {
 }
 
 #loginBtn, #memberJoinBtn, #logoutBtn, #changeInfo {
-	display: inline-block;
+	display: inline-block;8
 	text-align: center;
 	background: beige;
 	color: #2A1B0A;
@@ -109,7 +110,7 @@ body {
 		<div id="userInfo">
 			<label><%=loginUser.getNickName()%>님 환영합니다.</label>
 			<div class="btns" align="right">
-				<div id="changeInfo" onclick="changeInfo();">CHANGE INFO</div>
+				<div id="changeInfo" onclick="changeInfo();">CHANGE</div>
 				<div id="logoutBtn" onclick="logout();">LOGOUT</div>
 			</div>
 		</div>

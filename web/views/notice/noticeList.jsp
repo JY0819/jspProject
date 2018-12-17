@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>noticeList</title>
 <style>
@@ -89,6 +90,21 @@ table {
 		</div>
 
 	</div>
+	<script>
+		$(function(){
+			$("#listArea td").mouseenter(function(){
+				$(this).parent().css({"background" : "#2A1B0A", "color" : "white", "cursor" : "pointer"})
+			}).mouseout(function(){
+				$(this).parent().css({"background" : "beige", "color" : "black"})
+			}).click(function(){
+				var num = $(this).parent().children().eq(0).text();
+				
+				console.log(num);
+				
+				location.href="<%=request.getContextPath()%>/selectOne.no?num=" + num;
+			});
+		});
+	</script>
 
 </body>
 </html>

@@ -1,11 +1,15 @@
 package com.kh.jsp.notice.model.service;
 
+import static com.kh.jsp.common.JDBCTemplate.close;
+import static com.kh.jsp.common.JDBCTemplate.commit;
+import static com.kh.jsp.common.JDBCTemplate.getConnection;
+import static com.kh.jsp.common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.jsp.notice.model.dao.NoticeDao;
 import com.kh.jsp.notice.model.vo.Notice;
-import static com.kh.jsp.common.JDBCTemplate.*;
 
 public class NoticeService {
 
@@ -20,14 +24,65 @@ public class NoticeService {
 	}
 
 	// 공지사항 등록
-	public int insertNotice(Notice reqNotice) {
+	public int insertNotice(Notice n) {
 		Connection con = getConnection();
-		System.out.println("서비스");
-		int result = new NoticeDao().insertNotice(con, reqNotice);
+		int result = new NoticeDao().insertNotice(con, n);
 		
 		if(result > 0) {
 			commit(con);
 		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	// 상세보기
+	public Notice selectOne(String num) {
+		Connection con = getConnection();
+		
+		Notice n = new NoticeDao().selectOne(con, num);
+		
+		int result = 0;
+		
+		// 상세보기 성공 시 조회수를 올려주는 메소드를 호출
+		if(n != null) {
+			result = new NoticeDao().updateCount(con, n.getNno());
+			if(result > 0) commit(con);
+			else rollback(con);
+		}
+		
+		close(con);
+		
+		return n;
+	}
+
+	// 공지사항 수정
+	public int updateNotice(Notice n) {
+		Connection con = getConnection();
+		int result = new NoticeDao().updateNotice(con, n);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	public int deleteNotice(int nno) {
+		Connection con = getConnection();
+		
+		int result = new NoticeDao().deleteNotice(con, nno);
+		
+		if(result > 0) {
+			commit(con);
+		}else {
 			rollback(con);
 		}
 		
