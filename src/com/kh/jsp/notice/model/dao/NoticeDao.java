@@ -204,4 +204,73 @@ public class NoticeDao {
 
 	}
 
+	// 페이징 처리 적용한 공지사항 조회용 메소드
+	public ArrayList<Notice> selectList(Connection con, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Notice> list = null;
+		
+		String query = prop.getProperty("selectList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			int startRow = (currentPage - 1) * limit + 1;
+			int endRow = startRow + limit - 1;
+			
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<Notice>();
+			
+			while (rset.next()) {
+				Notice n = new Notice();
+
+				n.setNno(rset.getInt("NNO"));
+				n.setnTitle(rset.getString("NTITLE"));
+				n.setnContent(rset.getString("NCONTENT"));
+				n.setnWriter(rset.getString("NICK_NAME"));
+				n.setnCount(rset.getInt("NCOUNT"));
+				n.setnDate(rset.getDate("NDATE"));
+
+				list.add(n);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	// 전체 게시글 수 조회
+	public int getListCount(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		int listCount = 0;
+		
+		String query = prop.getProperty("listCount");
+		
+		try {
+			stmt = con.createStatement();
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		return listCount;
+	}
+
 }

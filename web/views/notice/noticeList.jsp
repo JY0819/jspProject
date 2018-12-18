@@ -3,6 +3,12 @@
 	pageEncoding="UTF-8" import="java.util.*, com.kh.jsp.notice.model.vo.*"%>
 <%
 	ArrayList<Notice> list = (ArrayList<Notice>) request.getAttribute("list");
+	PageInfo pi = (PageInfo) request.getAttribute("pi");
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
 %>
 <!DOCTYPE html>
 <html>
@@ -71,6 +77,62 @@ table {
 				%>
 			</table>
 		</div>
+
+
+		<div class="pagingArea" align="center">
+			<button
+				onclick="location.href='<%=request.getContextPath()%>/selectList.no?currentPage=1'"><<</button>
+
+
+			<%
+				if (currentPage <= 1) {
+			%>
+			<button disabled><</button>
+			<%
+				} else {
+			%>
+			<button
+				onclick="location.href='<%=request.getContextPath()%>/selectList.no?currentPage=<%=currentPage - 1%>'"><</button>
+			<%
+				}
+			%>
+
+
+			<%
+				for (int p = startPage; p <= endPage; p++) {
+
+					if (p == currentPage) {
+			%>
+					<button disabled><%= p %></button>
+			<%
+					} else {
+			%>
+					<button onclick="location.href='<%=request.getContextPath()%>/selectList.no?currentPage=<%= p %>'"><%= p %></button>
+			<%
+					}
+			%>
+
+			<%
+				}
+			%>
+
+
+			<%
+				if (currentPage >= maxPage) {
+			%>
+			<button disabled>></button>
+			<%
+				} else {
+			%>
+			<button onclick="location.href='<%=request.getContextPath()%>/selectList.no?currentPage=<%=currentPage + 1%>'">></button>
+			<%
+				}
+			%>
+
+			<button onclick="location.href='<%=request.getContextPath()%>/selectList.no?currentPage=<%=maxPage%>'">>></button>
+
+		</div>
+
 
 		<div class="searchArea" align="center">
 			<select id="searchCondition" name="searchCondition">
