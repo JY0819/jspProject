@@ -51,7 +51,7 @@ body {
 }
 
 #loginBtn, #memberJoinBtn, #logoutBtn, #changeInfo {
-	display: inline-block;8
+	display: inline-block;
 	text-align: center;
 	background: beige;
 	color: #2A1B0A;
@@ -161,7 +161,7 @@ body {
 		}
 
 		function goBoard() {
-
+			location.href="/jsp/selectList.bo";
 		}
 
 		function goThumbnail() {
