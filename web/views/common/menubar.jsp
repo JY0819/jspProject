@@ -165,6 +165,7 @@ body {
 		}
 
 		function goThumbnail() {
+			location.href="/jsp/selectList.tn";
 
 		}
 	</script>

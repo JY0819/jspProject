@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.jsp.board.model.dao.BoardDao;
+import com.kh.jsp.board.model.vo.Attachment;
 import com.kh.jsp.board.model.vo.Board;
 import com.kh.jsp.member.model.dao.MemberDao;
 
@@ -61,6 +62,36 @@ public class BoardService {
 		close(con);
 		
 		return listCount;
+	}
+
+
+	public int insertThumbnail(Board b, ArrayList<Attachment> fileList) {
+		Connection con = getConnection();
+		int result = 0;
+		
+		int result1 = new BoardDao().insertThumbnailContent(con, b);
+		
+		if(result1 > 0) {
+			int bid = new BoardDao().selectCurrval(con);
+			
+			for(int i = 0; i < fileList.size(); i++) {
+				fileList.get(i).setBid(bid);
+			}
+		}
+		
+		int result2 = new BoardDao().insertAttachment(con, fileList);
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(con);
+			// 대표값으로 넘긴다 (양수이기만 하면 됨) 
+			result = 1;
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
 	}
 
 
