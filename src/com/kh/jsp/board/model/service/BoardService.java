@@ -2,6 +2,7 @@ package com.kh.jsp.board.model.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.jsp.board.model.dao.BoardDao;
 import com.kh.jsp.board.model.vo.Attachment;
@@ -92,6 +93,48 @@ public class BoardService {
 		close(con);
 		
 		return result;
+	}
+
+	// 썸네일 리스트
+	public ArrayList<HashMap<String, Object>> selectThumbnailList() {
+		Connection con = getConnection();
+		
+		ArrayList<HashMap<String, Object>> list = new BoardDao().selectThumbnailList(con);
+		
+		close(con);
+		
+		return list;
+	}
+
+	// 사진게시판 상세보기
+	public HashMap<String, Object> selectThumbnailMap(int num) {
+		Connection con = getConnection();
+
+		HashMap<String, Object> hmap = null;
+		
+		int result = new BoardDao().updateCount(con, num);
+		
+		if(result > 0) {
+			commit(con);
+			hmap = new BoardDao().selectThumbnailMap(con, num);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return hmap;
+	}
+
+	// 다운로드
+	public Attachment selectOneAttachment(int num) {
+		Connection con = getConnection();
+		
+		Attachment file = new BoardDao().selectOneAttachment(con, num);
+		
+		close(con);
+		
+		return file;
 	}
 
 

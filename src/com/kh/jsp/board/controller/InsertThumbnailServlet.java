@@ -64,8 +64,7 @@ public class InsertThumbnailServlet extends HttpServlet {
 			 maxSize , "UTF-8", new DefaultFileRenamePolicy());
 			 */
 
-			MultipartRequest multiRequest = new MultipartRequest(request, filePath, maxSize, "UTF-8",
-					new MyFileRenamePolicy());
+			MultipartRequest multiRequest = new MultipartRequest(request, filePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 
 			// 다중 파일을 묶어서 업로드하기 위해 컬렉션 사용
 			// 저장한 파일의 이름을 저장할 arrayList 생성
