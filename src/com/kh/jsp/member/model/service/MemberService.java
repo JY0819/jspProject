@@ -38,4 +38,15 @@ public class MemberService {
 		return result;
 	}
 
+	// 아이디 체크 (회원가입)
+	public int idCheck(String userId) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().idCheck(con, userId);
+		
+		close(con);
+		
+		return result;
+	}
+
 }

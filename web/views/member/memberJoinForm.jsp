@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <style>
 .outer {
 	width: 600px;
@@ -23,7 +24,7 @@
 	width: 80px;
 	height: 25px;
 	text-align: center;
-	color:#2A1B0A;
+	color: #2A1B0A;
 }
 
 #idCheck:hover, #ckZip:hover, #joinBtn:hover, #goMain:hover {
@@ -99,15 +100,18 @@
 				<tr>
 					<td>관심분야</td>
 					<td><input type="checkbox" id="sports" name="interest"
-						value="운동"> <label for="sports">운동</label> <input
-						type="checkbox" id="climbing" name="interest" value="등산">
-						<label for="climbing">등산</label> <input type="checkbox"
-						id="fishing" name="interest" value="낚시"> <label
-						for="fishing">낚시</label> <input type="checkbox" id="cooking"
-						name="interest" value="요리"> <label for="cooking">요리</label>
+						value="운동"> 
+						<label for="sports">운동</label>
+						<input type="checkbox" id="climbing" name="interest" value="등산">
+						<label for="climbing">등산</label> 
+						<input type="checkbox" id="fishing" name="interest" value="낚시"> 
+						<label for="fishing">낚시</label> 
+						<input type="checkbox" id="cooking" name="interest" value="요리"> 
+						<label for="cooking">요리</label>
 						<input type="checkbox" id="game" name="interest" value="게임">
-						<label for="game">게임</label> <input type="checkbox" id="etc"
-						name="interest" value="기타"> <label for="etc">기타</label></td>
+						<label for="game">게임</label> 
+						<input type="checkbox" id="etc" name="interest" value="기타"> 
+						<label for="etc">기타</label></td>
 				</tr>
 			</table>
 			<br>
@@ -126,6 +130,30 @@
 		function insertMember() {
 			$("#joinForm").submit();
 		}
+		
+		$(function(){
+			$("#idCheck").click(function() {
+				var userId = $("#userId").val();
+				
+				$.ajax({
+					url : "/jsp/idCheck.me",
+					type : "post",
+					data : {
+						userId : userId
+					},
+					success : function(data) {
+						if (data === "fail") {
+							alert("아이디가 중복됩니다.");
+						} else {
+							alert("사용 가능합니다.");
+						}
+					},
+					error : function() {
+						console.log("실패!");
+					}
+				});
+			});
+		});
 	</script>
 
 </body>
