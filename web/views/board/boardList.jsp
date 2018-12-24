@@ -13,6 +13,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>BOARD LIST</title>
 <style>
 .outer {
@@ -150,7 +151,40 @@ table {
 		</div>
 
 	</div>
+	
+	<script>
+		$(function(){
+			$("#listArea td").mouseenter(function(){
+				$(this).parent().css({"background":"brown", "color":"white", "cursor":"pointer"});
+			}).mouseout(function(){
+				$(this).parent().css({"background":"beige","color":"brown"});
+			}).click(function(){
+				var num = $(this).parent().children("input").val();
+				
+				location.href="<%=request.getContextPath()%>/selectOne.bo?num=" + num;
+			});
+		});
+	</script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

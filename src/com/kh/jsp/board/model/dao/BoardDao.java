@@ -426,4 +426,106 @@ public class BoardDao {
 		return file;
 	}
 
+	// 게시판 상세보기
+	public Board selectOne(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board b = null;
+		
+		String query = prop.getProperty("selectOne");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Board();
+				
+				b.setBid(rset.getInt("BID"));
+				b.setbType(rset.getInt("BTYPE"));
+				b.setBno(rset.getInt("BNO"));
+				b.setCategory(rset.getString("CNAME"));
+				b.setbTitle(rset.getString("BTITLE"));
+				b.setbContent(rset.getString("BCONTENT"));
+				b.setbWriter(rset.getString("NICK_NAME"));
+				b.setbCount(rset.getInt("BCOUNT"));
+				b.setRefBid(rset.getInt("REF_BID"));
+				b.setReplyLevel(rset.getInt("REPLY_LEVEL"));
+				b.setbDate(rset.getDate("BDATE"));
+				b.setModifyDate(rset.getDate("MODIFY_DATE"));
+				b.setStatus(rset.getString("STATUS"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return b;
+	}
+
+	public int insertReply(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertReply");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getbContent());
+			pstmt.setString(2, b.getbWriter());
+			pstmt.setInt(3, b.getBid());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Board> selectReplyList(Connection con, int bid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectReplyList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, bid);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<Board>();
+			
+			while(rset.next()) {
+				Board b = new Board();
+				
+				b.setBid(rset.getInt("BID"));
+				b.setbContent(rset.getString("BCONTENT"));
+				b.setbWriter(rset.getString("NICK_NAME"));
+				b.setRefBid(rset.getInt("REF_BID"));
+				b.setReplyLevel(rset.getInt("REPLY_LEVEL"));
+				b.setbDate(rset.getDate("BDATE"));
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
+
 }

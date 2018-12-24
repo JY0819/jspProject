@@ -137,6 +137,46 @@ public class BoardService {
 		return file;
 	}
 
+	// 게시판 상세보기
+	public Board selectOne(int num) {
+		Connection con = getConnection();
+		
+		Board b = null;
+		
+		// 조회수 증가(기존 작성했던 updateCount)
+		int result = new BoardDao().updateCount(con, num);
+		
+		if(result > 0) {
+			commit(con);
+			b = new BoardDao().selectOne(con, num);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return b;
+	}
+
+
+	public ArrayList<Board> insertReply(Board b) {
+		Connection con = getConnection();
+		ArrayList<Board> replyList = null;
+		
+		int result = new BoardDao().insertReply(con, b);
+		
+		if(result > 0) {
+			commit(con);
+			replyList = new BoardDao().selectReplyList(con, b.getBid());
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return replyList;
+	}
+
 
 }
 
