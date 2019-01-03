@@ -29,9 +29,9 @@ public class DeleteNoticeServlet extends HttpServlet {
 		
 		if(result > 0) {
 			response.sendRedirect("/jsp/selectList.no");
-		}else {
+		} else {
 			request.setAttribute("msg", "공지사항 삭제 실패!");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);;
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 			
 		}
 		

@@ -100,8 +100,7 @@
 
 					<tr>
 						<td width="100px">사진 메모</td>
-						<td colspan="3"><textarea name="content" rows="5" cols="50"
-								style="resize: none;"></textarea>
+						<td colspan="3"><textarea name="content" rows="5" cols="50" style="resize: none;"></textarea>
 					</tr>
 				</table>
 
@@ -119,6 +118,7 @@
 			</div>
 		</form>
 	</div>
+	
 	
 	<script>
 		$(function(){

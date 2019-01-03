@@ -90,11 +90,11 @@ public class SelectBoardListServlet extends HttpServlet {
 		
 		String page = "";
 		if(list != null) {
-			page="views/board/boardList.jsp";
+			page = "views/board/boardList.jsp";
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
 		} else {
-			page="views/common/errorPage.jsp";
+			page = "views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시판 조회 실패 8ㅅ8");
 		}
 		
