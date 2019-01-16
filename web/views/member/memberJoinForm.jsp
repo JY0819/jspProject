@@ -47,8 +47,7 @@
 		<br>
 		<h2 align="center">회원 가입</h2>
 
-		<form id="joinForm"
-			action="<%=request.getContextPath()%>/insertMember.me" method="post">
+		<form id="joinForm" action="<%=request.getContextPath()%>/insertMember.me" method="post">
 
 			<table align="center">
 				<tr>

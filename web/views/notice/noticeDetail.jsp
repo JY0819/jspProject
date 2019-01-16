@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="com.kh.jsp.notice.model.vo.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 	Notice n = (Notice) request.getAttribute("n");
 %>
@@ -32,7 +36,8 @@ table {
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
-
+<%-- 	<jsp:include page="../common/menubar.jsp"/> --%>
+	
 	<div class="outer">
 		<br>
 		<h2 align="center">공지 사항 내용</h2>
@@ -42,15 +47,15 @@ table {
 				<tr>
 					<td>제목</td>
 					<td colspan="3"><input type="text" size="50" name="title"
-						value="<%=n.getnTitle()%>" readonly></td>
+						value="${ n.nTitle }" readonly></td>
 				</tr>
 
 				<tr>
 					<td>작성자</td>
-					<td><input type="text" value="<%=n.getnWriter()%>"
+					<td><input type="text" value="${ n.nWriter }"
 						name="writer" readonly></td>
 					<td>작성일</td>
-					<td><input type="date" name="date" value="<%=n.getnDate()%> readonly"></td>
+					<td><input type="date" name="date" value="${ n.nDate } readonly"></td>
 				</tr>
 
 				<tr>
@@ -59,7 +64,7 @@ table {
 
 				<tr>
 					<td colspan="4"><textarea name="content" cols="60" rows="15"
-							style="resize: none;" readonly><%=n.getnContent()%></textarea></td>
+							style="resize: none;" readonly>${ n.nContent }</textarea></td>
 				</tr>
 
 			</table>

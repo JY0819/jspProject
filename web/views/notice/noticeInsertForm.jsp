@@ -33,6 +33,9 @@ table {
 	<%
 		if (loginUser != null && loginUser.getUserId().equals("admin")) {
 	%>
+<!-- 	<c:if user=" "/> -->
+	
+	
 	<div class="outer">
 		<br>
 		<h2 align="center">공지 사항 작성</h2>
@@ -46,8 +49,9 @@ table {
 					<tr>
 						<td>작성자</td>
 						<td>
-							<input type="text" value="<%=loginUser.getNickName()%>" name="writer" readonly> 
-							<input type="hidden" value="<%=loginUser.getUno()%>" name="uno">
+							<input type="text" value="${ requestScope.loginUser.nickName }" name="writer" readonly>
+							
+							<input type="hidden" value="${ requestScope.loginUser.uno }" name="uno">
 						</td>
 						<td>작성일</td>
 						<td><input type="date" name="date"></td>
@@ -83,23 +87,5 @@ table {
 
 
 
-
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -45,6 +45,7 @@ public class InsertMemberServlet extends HttpServlet {
 				}
 			}
 		}
+		
 		System.out.println("userId : " + userId);
 		System.out.println("userPwd : " + userPwd);
 		System.out.println("nickName : " + nickName);

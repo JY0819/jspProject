@@ -1,14 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="java.util.*, com.kh.jsp.board.model.vo.*"%>
-<%
-	ArrayList<Board> list = (ArrayList<Board>) request.getAttribute("list");
-	PageInfo pi = (PageInfo) request.getAttribute("pi");
-	int listCount = pi.getListCount();
-	int currentPage = pi.getCurrentPage();
-	int maxPage = pi.getMaxPage();
-	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage();
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +40,7 @@ table {
 </style>
 </head>
 <body>
-	<%@ include file="../common/menubar.jsp"%>
+	<jsp:include page="../common/menubar.jsp"/>
 
 	<div class="outer">
 		<br>
@@ -61,75 +55,53 @@ table {
 					<th>조회수</th>
 					<th>작성일</th>
 				</tr>
-				<%
-					for (Board b : list) {
-				%>
+				
+				<c:forEach var="b" items="${list}">
 				<tr>
-					<input type="hidden" value="<%=b.getBid()%>">
-					<td><%=b.getBno()%></td>
-					<td><%=b.getCategory()%></td>
-					<td><%=b.getbTitle()%></td>
-					<td><%=b.getbWriter()%></td>
-					<td><%=b.getbCount()%></td>
-					<td><%=b.getbDate()%></td>
+					<input type="hidden" value="${b.bid}">
+					<td>${b.bno}</td>
+					<td>${b.category}</td>
+					<td>${b.bTitle}</td>
+					<td>${b.bWriter}</td>
+					<td>${b.bCount}</td>
+					<td>${b.bDate}</td>
 				</tr>
-				<%
-					}
-				%>
+				</c:forEach>
+				
 			</table>
 		</div>
 
 		<div class="pagingArea" align="center">
-			<button
-				onclick="location.href='<%=request.getContextPath()%>/selectList.bo?currentPage=1'"><<</button>
+			<button onclick="location.href='${pageContext.request.contextPath}/selectList.bo?currentPage=1'"><<</button>
 
 
-			<%
-				if (currentPage <= 1) {
-			%>
+			<c:if test="${pi.currentPage <=1}">
 			<button disabled><</button>
-			<%
-				} else {
-			%>
-			<button
-				onclick="location.href='<%=request.getContextPath()%>/selectList.bo?currentPage=<%=currentPage - 1%>'"><</button>
-			<%
-				}
-			%>
+			</c:if>
+			
+			<c:if test="${pi.currentPage >1 }">
+			<button onclick="location.href='${pageContext.request.contextPath}/selectList.bo?currentPage=${pi.currentPage-1 }'"><</button>
+			</c:if>
+			
+			
+			<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}" step="1">
+				<c:if test="${p == pi.currentPage }">
+					<button disabled>${p}</button>
+				</c:if>
+				<c:if test="${p != pi.currentPage }">
+					<button onclick="location.href='${pageContext.request.contextPath}/selectList.bo?currentPage=${p}'">${p}</button>
+				</c:if>
+			</c:forEach>
+			
+					
+			<c:if test="${pi.currentPage >= pi.maxPage }">
+				<button disable>></button>
+			</c:if>
+			<c:if test="${pi.currentPage < pi.maxPage }">
+				<button onclick="location.href='${pageContext.request.contextPath}/selectList.bo?currentPage=${pi.currentPage+1 }'">></button>
+			</c:if>
 
-
-			<%
-				for (int p = startPage; p <= endPage; p++) {
-
-					if (p == currentPage) {
-			%>
-					<button disabled><%= p %></button>
-			<%
-					} else {
-			%>
-					<button onclick="location.href='<%=request.getContextPath()%>/selectList.bo?currentPage=<%= p %>'"><%= p %></button>
-			<%
-					}
-			%>
-
-			<%
-				}
-			%>
-
-
-			<%
-				if (currentPage >= maxPage) {
-			%>
-			<button disabled>></button>
-			<%
-				} else {
-			%>
-			<button onclick="location.href='<%=request.getContextPath()%>/selectList.bo?currentPage=<%=currentPage + 1%>'">></button>
-			<%
-				}
-			%>
-
-			<button onclick="location.href='<%=request.getContextPath()%>/selectList.bo?currentPage=<%=maxPage%>'">>></button>
+			<button onclick="location.href='${pageContext.request.contextPath}/selectList.bo?currentPage=${pi.maxPage}'">>></button>
 
 		</div>
 
@@ -141,13 +113,9 @@ table {
 				<option value="content">내용</option>
 			</select> <input type="search">
 			<button type="submit">검색</button>
-			<%
-				if (loginUser != null) {
-			%>
+			<c:if test="${loginUser != null}">
 			<button onclick="location.href='views/board/boardInsertForm.jsp'">작성하기</button>
-			<%
-				}
-			%>
+			</c:if>
 		</div>
 
 	</div>
@@ -161,7 +129,7 @@ table {
 			}).click(function(){
 				var num = $(this).parent().children("input").val();
 				
-				location.href="<%=request.getContextPath()%>/selectOne.bo?num=" + num;
+				location.href="${pageContext.request.contextPath}/selectOne.bo?num=" + num;
 			});
 		});
 	</script>
